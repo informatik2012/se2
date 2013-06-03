@@ -22,364 +22,381 @@ import de.uni_hamburg.informatik.swt.se2.mediathek.services.medienbestand.Medien
  * @version SoSe 2013
  */
 public class VerleihServiceImpl extends AbstractObservableService implements
-        VerleihService
+		VerleihService
 {
-    /**
-     * Die Menge mit den Verleihkarten.
-     */
-    private Map<Medium, Verleihkarte> _verleihkarten;
+	/**
+	 * Die Menge mit den Verleihkarten.
+	 */
+	private Map<Medium, Verleihkarte> _verleihkarten;
 
-    /**
-     * Die Menge mit den Vormerkkarten.
-     */
-    private Map<Medium, Vormerkkarte> _vormerkkarten;
-    
-    /**
-     * Der Medienbestand.
-     */
-    private MedienbestandService _medienbestand;
+	/**
+	 * Die Menge mit den Vormerkkarten.
+	 */
+	private Map<Medium, Vormerkkarte> _vormerkkarten;
 
-    /**
-     * Der Kundenstamm.
-     */
-    private KundenstammService _kundenstamm;
+	/**
+	 * Der Medienbestand.
+	 */
+	private MedienbestandService _medienbestand;
 
-    /**
-     * Der Protokollierer für die Verleihvorgänge.
-     */
-    private VerleihProtokollierer _protokollierer;
+	/**
+	 * Der Kundenstamm.
+	 */
+	private KundenstammService _kundenstamm;
 
-    /**
-     * Konstruktor. Erzeugt einen neuen VerleihServiceImpl.
-     * 
-     * @param kundenstamm Der KundenstammService.
-     * @param medienbestand Der MedienbestandService.
-     * @param initialBestand Der initiale Bestand.
-     * 
-     * @require kundenstamm != null
-     * @require medienbestand != null
-     * @require initialBestand != null
-     */
-    public VerleihServiceImpl(KundenstammService kundenstamm,
-            MedienbestandService medienbestand,
-            List<Verleihkarte> initialBestand)
-    {
-        assert kundenstamm != null : "Vorbedingung verletzt: kundenstamm  != null";
-        assert medienbestand != null : "Vorbedingung verletzt: medienbestand  != null";
-        assert initialBestand != null : "Vorbedingung verletzt: initialBestand  != null";
-        _verleihkarten = erzeugeVerleihkartenBestand(initialBestand);
-        _vormerkkarten = new HashMap<Medium, Vormerkkarte>();
-        _kundenstamm = kundenstamm;
-        _medienbestand = medienbestand;
-        _protokollierer = new VerleihProtokollierer();
-    }
+	/**
+	 * Der Protokollierer für die Verleihvorgänge.
+	 */
+	private VerleihProtokollierer _protokollierer;
 
-    /**
-     * Erzeugt eine neue HashMap aus dem Initialbestand.
-     */
-    private HashMap<Medium, Verleihkarte> erzeugeVerleihkartenBestand(
-            List<Verleihkarte> initialBestand)
-    {
-        HashMap<Medium, Verleihkarte> result = new HashMap<Medium, Verleihkarte>();
-        for (Verleihkarte verleihkarte : initialBestand)
-        {
-            result.put(verleihkarte.getMedium(), verleihkarte);
-        }
-        return result;
-    }
+	/**
+	 * Konstruktor. Erzeugt einen neuen VerleihServiceImpl.
+	 * 
+	 * @param kundenstamm
+	 *            Der KundenstammService.
+	 * @param medienbestand
+	 *            Der MedienbestandService.
+	 * @param initialBestand
+	 *            Der initiale Bestand.
+	 * 
+	 * @require kundenstamm != null
+	 * @require medienbestand != null
+	 * @require initialBestand != null
+	 */
+	public VerleihServiceImpl(KundenstammService kundenstamm,
+			MedienbestandService medienbestand,
+			List<Verleihkarte> initialBestand)
+	{
+		assert kundenstamm != null : "Vorbedingung verletzt: kundenstamm  != null";
+		assert medienbestand != null : "Vorbedingung verletzt: medienbestand  != null";
+		assert initialBestand != null : "Vorbedingung verletzt: initialBestand  != null";
+		_verleihkarten = erzeugeVerleihkartenBestand(initialBestand);
+		_vormerkkarten = new HashMap<Medium, Vormerkkarte>();
+		_kundenstamm = kundenstamm;
+		_medienbestand = medienbestand;
+		_protokollierer = new VerleihProtokollierer();
+	}
 
-    @Override
-    public List<Verleihkarte> getVerleihkarten()
-    {
-        return new ArrayList<Verleihkarte>(_verleihkarten.values());
-    }
-    
-    @Override
-    public List<Vormerkkarte> getVormerkkarten()
-    {
-        return new ArrayList<Vormerkkarte>(_vormerkkarten.values());
-    }
+	/**
+	 * Erzeugt eine neue HashMap aus dem Initialbestand.
+	 */
+	private HashMap<Medium, Verleihkarte> erzeugeVerleihkartenBestand(
+			List<Verleihkarte> initialBestand)
+	{
+		HashMap<Medium, Verleihkarte> result = new HashMap<Medium, Verleihkarte>();
+		for (Verleihkarte verleihkarte : initialBestand)
+		{
+			result.put(verleihkarte.getMedium(), verleihkarte);
+		}
+		return result;
+	}
 
-    @Override
-    public boolean istVerliehen(Medium medium)
-    {
-        assert mediumImBestand(medium) : "Vorbedingung verletzt: mediumExistiert(medium)";
-        return _verleihkarten.containsKey(medium);
-    }
+	@Override
+	public List<Verleihkarte> getVerleihkarten()
+	{
+		return new ArrayList<Verleihkarte>(_verleihkarten.values());
+	}
 
-    @Override
-    public boolean istVerleihenMoeglich(Kunde kunde, List<Medium> medien)
-    {
-        assert kundeImBestand(kunde) : "Vorbedingung verletzt: kundeImBestand(kunde)";
-        assert medienImBestand(medien) : "Vorbedingung verletzt: medienImBestand(medien)";
+	@Override
+	public List<Vormerkkarte> getVormerkkarten()
+	{
+		return new ArrayList<Vormerkkarte>(_vormerkkarten.values());
+	}
 
-        return sindAlleNichtVerliehen(medien);
-    }
+	@Override
+	public boolean istVerliehen(Medium medium)
+	{
+		assert mediumImBestand(medium) : "Vorbedingung verletzt: mediumExistiert(medium)";
+		return _verleihkarten.containsKey(medium);
+	}
 
-    @Override
-    public void nimmZurueck(List<Medium> medien, Datum rueckgabeDatum)
-            throws ProtokollierException
-    {
-        assert sindAlleVerliehen(medien) : "Vorbedingung verletzt: sindVerliehen(medien)";
-        assert rueckgabeDatum != null : "Vorbedingung verletzt: rueckgabeDatum != null";
+	@Override
+	public boolean istVerleihenMoeglich(Kunde kunde, List<Medium> medien)
+	{
+		assert kundeImBestand(kunde) : "Vorbedingung verletzt: kundeImBestand(kunde)";
+		assert medienImBestand(medien) : "Vorbedingung verletzt: medienImBestand(medien)";
 
-        for (Medium medium : medien)
-        {
-            Verleihkarte verleihkarte = _verleihkarten.get(medium);
-            _verleihkarten.remove(medium);
-            _protokollierer.protokolliere(
-                    VerleihProtokollierer.EREIGNIS_RUECKGABE, verleihkarte);
-        }
+		return sindAlleNichtVerliehen(medien);
+	}
 
-        informiereUeberAenderung();
-    }
+	@Override
+	public void nimmZurueck(List<Medium> medien, Datum rueckgabeDatum)
+			throws ProtokollierException
+	{
+		assert sindAlleVerliehen(medien) : "Vorbedingung verletzt: sindVerliehen(medien)";
+		assert rueckgabeDatum != null : "Vorbedingung verletzt: rueckgabeDatum != null";
 
-    @Override
-    public boolean sindAlleNichtVerliehen(List<Medium> medien)
-    {
-        assert medienImBestand(medien) : "Vorbedingung verletzt: medienExistieren(medien)";
-        boolean result = true;
-        for (Medium medium : medien)
-        {
-            if (istVerliehen(medium))
-            {
-                result = false;
-            }
-        }
-        return result;
-    }
+		for (Medium medium : medien)
+		{
+			Verleihkarte verleihkarte = _verleihkarten.get(medium);
+			_verleihkarten.remove(medium);
+			_protokollierer.protokolliere(
+					VerleihProtokollierer.EREIGNIS_RUECKGABE, verleihkarte);
+		}
 
-    @Override
-    public boolean sindAlleVerliehenAn(Kunde kunde, List<Medium> medien)
-    {
-        assert kundeImBestand(kunde) : "Vorbedingung verletzt: kundeImBestand(kunde)";
-        assert medienImBestand(medien) : "Vorbedingung verletzt: medienImBestand(medien)";
+		informiereUeberAenderung();
+	}
 
-        boolean result = true;
-        for (Medium medium : medien)
-        {
-            if (!istVerliehenAn(kunde, medium))
-            {
-                result = false;
-            }
-        }
-        return result;
-    }
+	@Override
+	public boolean sindAlleNichtVerliehen(List<Medium> medien)
+	{
+		assert medienImBestand(medien) : "Vorbedingung verletzt: medienExistieren(medien)";
+		boolean result = true;
+		for (Medium medium : medien)
+		{
+			if (istVerliehen(medium))
+			{
+				result = false;
+			}
+		}
+		return result;
+	}
 
-    @Override
-    public boolean istVerliehenAn(Kunde kunde, Medium medium)
-    {
-        assert kundeImBestand(kunde) : "Vorbedingung verletzt: kundeImBestand(kunde)";
-        assert mediumImBestand(medium) : "Vorbedingung verletzt: mediumImBestand(medium)";
+	@Override
+	public boolean sindAlleVerliehenAn(Kunde kunde, List<Medium> medien)
+	{
+		assert kundeImBestand(kunde) : "Vorbedingung verletzt: kundeImBestand(kunde)";
+		assert medienImBestand(medien) : "Vorbedingung verletzt: medienImBestand(medien)";
 
-        return istVerliehen(medium) && getEntleiherFuer(medium).equals(kunde);
-    }
+		boolean result = true;
+		for (Medium medium : medien)
+		{
+			if (!istVerliehenAn(kunde, medium))
+			{
+				result = false;
+			}
+		}
+		return result;
+	}
 
-    @Override
-    public boolean sindAlleVerliehen(List<Medium> medien)
-    {
-        assert medienImBestand(medien) : "Vorbedingung verletzt: medienImBestand(medien)";
+	@Override
+	public boolean istVerliehenAn(Kunde kunde, Medium medium)
+	{
+		assert kundeImBestand(kunde) : "Vorbedingung verletzt: kundeImBestand(kunde)";
+		assert mediumImBestand(medium) : "Vorbedingung verletzt: mediumImBestand(medium)";
 
-        boolean result = true;
-        for (Medium medium : medien)
-        {
-            if (!istVerliehen(medium))
-            {
-                result = false;
-            }
-        }
-        return result;
-    }
+		return istVerliehen(medium) && getEntleiherFuer(medium).equals(kunde);
+	}
 
-    @Override
-    public void verleiheAn(Kunde kunde, List<Medium> medien, Datum ausleihDatum)
-            throws ProtokollierException
-    {
-        assert kundeImBestand(kunde) : "Vorbedingung verletzt: kundeImBestand(kunde)";
-        assert sindAlleNichtVerliehen(medien) : "Vorbedingung verletzt: sindNichtVerliehen(medien) ";
-        assert ausleihDatum != null : "Vorbedingung verletzt: ausleihDatum != null";
-        assert istVerleihenMoeglich(kunde, medien) : "Vorbedingung verletzt:  istVerleihenMoeglich(kunde, medien)";
+	@Override
+	public boolean sindAlleVerliehen(List<Medium> medien)
+	{
+		assert medienImBestand(medien) : "Vorbedingung verletzt: medienImBestand(medien)";
 
-        for (Medium medium : medien)
-        {
-        	if(istVorgemerkt(medium) && getVormerkkarteFuer(medium).deleteErstenVormerker() == 0)
-            {
-            	_vormerkkarten.remove(medium);
-            }
-            Verleihkarte verleihkarte = new Verleihkarte(kunde, medium,
-                    ausleihDatum);
-            
-            _verleihkarten.put(medium, verleihkarte);
-            _protokollierer.protokolliere(
-                    VerleihProtokollierer.EREIGNIS_AUSLEIHE, verleihkarte);
-        }
+		boolean result = true;
+		for (Medium medium : medien)
+		{
+			if (!istVerliehen(medium))
+			{
+				result = false;
+			}
+		}
+		return result;
+	}
 
-        informiereUeberAenderung();
-    }
+	@Override
+	public void verleiheAn(Kunde kunde, List<Medium> medien, Datum ausleihDatum)
+			throws ProtokollierException
+	{
+		assert kundeImBestand(kunde) : "Vorbedingung verletzt: kundeImBestand(kunde)";
+		assert sindAlleNichtVerliehen(medien) : "Vorbedingung verletzt: sindNichtVerliehen(medien) ";
+		assert ausleihDatum != null : "Vorbedingung verletzt: ausleihDatum != null";
+		assert istVerleihenMoeglich(kunde, medien) : "Vorbedingung verletzt:  istVerleihenMoeglich(kunde, medien)";
 
-    @Override
-    public boolean kundeImBestand(Kunde kunde)
-    {
-        return _kundenstamm.enthaeltKunden(kunde);
-    }
+		for (Medium medium : medien)
+		{
+			if (istVorgemerkt(medium)
+					&& getVormerkkarteFuer(medium).deleteErstenVormerker() == 0)
+			{
+				_vormerkkarten.remove(medium);
+			}
+			Verleihkarte verleihkarte = new Verleihkarte(kunde, medium,
+					ausleihDatum);
 
-    @Override
-    public boolean mediumImBestand(Medium medium)
-    {
-        return _medienbestand.enthaeltMedium(medium);
-    }
+			_verleihkarten.put(medium, verleihkarte);
+			_protokollierer.protokolliere(
+					VerleihProtokollierer.EREIGNIS_AUSLEIHE, verleihkarte);
+		}
 
-    @Override
-    public boolean medienImBestand(List<Medium> medien)
-    {
-        assert medien != null : "Vorbedingung verletzt: medien != null";
-        assert !medien.isEmpty() : "Vorbedingung verletzt: !medien.isEmpty()";
+		informiereUeberAenderung();
+	}
 
-        boolean result = true;
-        for (Medium medium : medien)
-        {
-            if (!mediumImBestand(medium))
-            {
-                result = false;
-                break;
-            }
-        }
-        return result;
-    }
+	@Override
+	public boolean kundeImBestand(Kunde kunde)
+	{
+		return _kundenstamm.enthaeltKunden(kunde);
+	}
 
-    @Override
-    public List<Medium> getAusgelieheneMedienFuer(Kunde kunde)
-    {
-        assert kundeImBestand(kunde) : "Vorbedingung verletzt: kundeImBestand(kunde)";
-        List<Medium> result = new ArrayList<Medium>();
-        for (Verleihkarte verleihkarte : _verleihkarten.values())
-        {
-            if (verleihkarte.getEntleiher().equals(kunde))
-            {
-                result.add(verleihkarte.getMedium());
-            }
-        }
-        return result;
-    }
+	@Override
+	public boolean mediumImBestand(Medium medium)
+	{
+		return _medienbestand.enthaeltMedium(medium);
+	}
 
-    @Override
-    public Kunde getEntleiherFuer(Medium medium)
-    {
-        assert istVerliehen(medium) : "Vorbedingung verletzt: istVerliehen(medium)";
-        Verleihkarte verleihkarte = _verleihkarten.get(medium);
-        return verleihkarte.getEntleiher();
-    }
+	@Override
+	public boolean medienImBestand(List<Medium> medien)
+	{
+		assert medien != null : "Vorbedingung verletzt: medien != null";
+		assert !medien.isEmpty() : "Vorbedingung verletzt: !medien.isEmpty()";
 
-    @Override
-    public Verleihkarte getVerleihkarteFuer(Medium medium)
-    {
-        assert istVerliehen(medium) : "Vorbedingung verletzt: istVerliehen(medium)";
-        return _verleihkarten.get(medium);
-    }
+		boolean result = true;
+		for (Medium medium : medien)
+		{
+			if (!mediumImBestand(medium))
+			{
+				result = false;
+				break;
+			}
+		}
+		return result;
+	}
 
-    @Override
-    public List<Verleihkarte> getVerleihkartenFuer(Kunde kunde)
-    {
-        assert kundeImBestand(kunde) : "Vorbedingung verletzt: kundeImBestand(kunde)";
-        List<Verleihkarte> result = new ArrayList<Verleihkarte>();
-        for (Verleihkarte verleihkarte : _verleihkarten.values())
-        {
-            if (verleihkarte.getEntleiher().equals(kunde))
-            {
-                result.add(verleihkarte);
-            }
-        }
-        return result;
-    }
-    @Override
-    public boolean vormerkeAn(Kunde kunde, List<Medium> medium)
-    {
-    	assert medium != null : "Vorbedingung verletzt: medium != null";
-    	assert kunde != null : "Vorbedingung verletzt: kunde != null"; 
-    	
-    	if(istVormerkenMoeglich(medium ,kunde))
-	    		{
-    			 for(Medium m:medium)
-	    			{
-    				 if(_vormerkkarten.containsKey(m))
-    					 {
-    					 _vormerkkarten.get(m).addVormerker(kunde);
-    					 }
-    				 else
-	    				 {
-	    				 _vormerkkarten.put(m,new Vormerkkarte(kunde,m,Datum.heute())); 
-	    				 //System.out.print(_vormerkkarten.size());
-	    				 }
-	    			}
-    			 informiereUeberAenderung();
-    			 return true;
-	    		}
-    	else 
-    		return false;
-	 }
-    @Override	
+	@Override
+	public List<Medium> getAusgelieheneMedienFuer(Kunde kunde)
+	{
+		assert kundeImBestand(kunde) : "Vorbedingung verletzt: kundeImBestand(kunde)";
+		List<Medium> result = new ArrayList<Medium>();
+		for (Verleihkarte verleihkarte : _verleihkarten.values())
+		{
+			if (verleihkarte.getEntleiher().equals(kunde))
+			{
+				result.add(verleihkarte.getMedium());
+			}
+		}
+		return result;
+	}
+
+	@Override
+	public Kunde getEntleiherFuer(Medium medium)
+	{
+		assert istVerliehen(medium) : "Vorbedingung verletzt: istVerliehen(medium)";
+		Verleihkarte verleihkarte = _verleihkarten.get(medium);
+		return verleihkarte.getEntleiher();
+	}
+
+	@Override
+	public Verleihkarte getVerleihkarteFuer(Medium medium)
+	{
+		assert istVerliehen(medium) : "Vorbedingung verletzt: istVerliehen(medium)";
+		return _verleihkarten.get(medium);
+	}
+
+	@Override
+	public List<Verleihkarte> getVerleihkartenFuer(Kunde kunde)
+	{
+		assert kundeImBestand(kunde) : "Vorbedingung verletzt: kundeImBestand(kunde)";
+		List<Verleihkarte> result = new ArrayList<Verleihkarte>();
+		for (Verleihkarte verleihkarte : _verleihkarten.values())
+		{
+			if (verleihkarte.getEntleiher().equals(kunde))
+			{
+				result.add(verleihkarte);
+			}
+		}
+		return result;
+	}
+
+	@Override
+	public boolean vormerkeAn(Kunde kunde, List<Medium> medium)
+	{
+		assert medium != null : "Vorbedingung verletzt: medium != null";
+		assert kunde != null : "Vorbedingung verletzt: kunde != null";
+
+		if (istVormerkenMoeglich(medium, kunde))
+		{
+			for (Medium m : medium)
+			{
+				if (_vormerkkarten.containsKey(m))
+				{
+					_vormerkkarten.get(m).addVormerker(kunde);
+				}
+				else
+				{
+					_vormerkkarten.put(m,
+							new Vormerkkarte(kunde, m, Datum.heute()));
+					// System.out.print(_vormerkkarten.size());
+				}
+			}
+			informiereUeberAenderung();
+			return true;
+		}
+		else
+			return false;
+	}
+
+	@Override
 	public boolean istVormerkenMoeglich(List<Medium> medium, Kunde kunde)
 	{
-    	assert medium != null : "Vorbedingung verletzt: medium != null";
-    	assert kunde != null : "Vorbedingung verletzt: kunde != null";
+		assert medium != null : "Vorbedingung verletzt: medium != null";
+		assert kunde != null : "Vorbedingung verletzt: kunde != null";
 
-		for(Medium m:medium)
+		for (Medium m : medium)
 		{
-			if(!istVormerkenMoeglich(m,kunde))
+			if (!istVormerkenMoeglich(m, kunde))
 			{
-			return false;	
+				return false;
 			}
 		}
 		return true;
 	}
+
 	@Override
 	public boolean istVormerkenMoeglich(Medium medium, Kunde kunde)
 	{
 		assert medium != null : "Vorbedingung verletzt: medium != null";
-    	assert kunde != null : "Vorbedingung verletzt: kunde != null";
-    	
-		boolean nichtMoeglich=(istVerliehen(medium)&& _verleihkarten.get(medium).getEntleiher()==kunde)
-				|| (istVorgemerkt(medium)&&_vormerkkarten.get(medium).istVoll())
-				|| (istVorgemerkt(medium)&&_vormerkkarten.get(medium).istKundeInVormerkkarte(kunde)); 	
-    	return !nichtMoeglich;
-	    	
-	}
-    @Override
-    public boolean vormerkeZurueck(Medium medium,Kunde kunde)
-    {
-    	assert _vormerkkarten.get(medium)!=null : "Vorbedingung verletzt:  _vormerkkarten.get(medium) != null";	
-    	assert _vormerkkarten.get(medium).istKundeInVormerkkarte(kunde) : "Vorbedingung verletzt: _vormerkkarten.get(medium).istKundeInVormerkkarte(kunde)";
-    	_vormerkkarten.get(medium).deleteVormerker(kunde);
-    	if(_vormerkkarten.get(medium).istLeer())
-    	{
-    		_vormerkkarten.remove(medium);
-    		informiereUeberAenderung();
-    		return true;
-    	}
-    	return false;
-    }
-    @Override
-    public Vormerkkarte getVormerkkarteFuer(Medium medium)
-     {
-    	assert _vormerkkarten.get(medium)!=null: "Vorbedingung verletzt: _vormerkkarten.get(medium)!=null";
-    	return _vormerkkarten.get(medium);
-    } 
-    @Override
-	public boolean kannKundeEntleihenMedien(List<Medium> medien,Kunde kunde)
-    {
-    	assert medien != null : "Vorbedingung verletzt: medien != null";
-    	assert kunde != null : "Vorbedingung verletzt: kunde != null";
+		assert kunde != null : "Vorbedingung verletzt: kunde != null";
 
-    	for(Medium m:medien)
-    		{
-    		if(_vormerkkarten.containsKey(m)&&_vormerkkarten.get(m).getErstenVormerker()!=kunde) return false;
-    		}
-    	return true;
-    }
+		boolean nichtMoeglich = (istVerliehen(medium) && _verleihkarten.get(
+				medium).getEntleiher() == kunde)
+				|| (istVorgemerkt(medium) && _vormerkkarten.get(medium)
+						.istVoll())
+				|| (istVorgemerkt(medium) && _vormerkkarten.get(medium)
+						.istKundeInVormerkkarte(kunde));
+		return !nichtMoeglich;
+
+	}
 
 	@Override
-	public boolean istVorgemerkt(Medium medium) {
+	public boolean vormerkeZurueck(Medium medium, Kunde kunde)
+	{
+		assert _vormerkkarten.get(medium) != null : "Vorbedingung verletzt:  _vormerkkarten.get(medium) != null";
+		assert _vormerkkarten.get(medium).istKundeInVormerkkarte(kunde) : "Vorbedingung verletzt: _vormerkkarten.get(medium).istKundeInVormerkkarte(kunde)";
+		_vormerkkarten.get(medium).deleteVormerker(kunde);
+		if (_vormerkkarten.get(medium).istLeer())
+		{
+			_vormerkkarten.remove(medium);
+			informiereUeberAenderung();
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public Vormerkkarte getVormerkkarteFuer(Medium medium)
+	{
+		assert _vormerkkarten.get(medium) != null : "Vorbedingung verletzt: _vormerkkarten.get(medium)!=null";
+		return _vormerkkarten.get(medium);
+	}
+
+	@Override
+	public boolean kannKundeEntleihenMedien(List<Medium> medien, Kunde kunde)
+	{
+		assert medien != null : "Vorbedingung verletzt: medien != null";
+		assert kunde != null : "Vorbedingung verletzt: kunde != null";
+
+		for (Medium m : medien)
+		{
+			if (_vormerkkarten.containsKey(m)
+					&& _vormerkkarten.get(m).getErstenVormerker() != kunde)
+				return false;
+		}
+		return true;
+	}
+
+	@Override
+	public boolean istVorgemerkt(Medium medium)
+	{
 		assert mediumImBestand(medium) : "Vorbedingung verletzt: mediumImBestand(medium)";
-        return _vormerkkarten.containsKey(medium);
+		return _vormerkkarten.containsKey(medium);
 	}
 }

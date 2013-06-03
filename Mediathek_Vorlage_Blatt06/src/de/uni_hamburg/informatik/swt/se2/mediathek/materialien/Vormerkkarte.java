@@ -13,13 +13,15 @@ import de.uni_hamburg.informatik.swt.se2.mediathek.materialien.medien.Medium;
  * Sie beantwortet die folgenden Fragen: Welches Medium wurde vorgemerkt? Wer
  * hat das Medium vorgemerkt? Wann wurde das Medium vorgemerkt?
  * 
- * Wenn es keine Vormerkkungen wird die Vormerkkarte entfernt. Um die Verwaltung der Karten kümmert sich der VerleihService
+ * Wenn es keine Vormerkkungen wird die Vormerkkarte entfernt. Um die Verwaltung
+ * der Karten kümmert sich der VerleihService
  * 
  * @author Marco, Diana, Merve, Melanie
  * @version SoSe 2013
  */
 
-public class Vormerkkarte {
+public class Vormerkkarte
+{
 
 	// Eigenschaften einer Vormerkkarte
 	private final Datum _vormerkdatum;
@@ -45,7 +47,8 @@ public class Vormerkkarte {
 	 * @ensure #getMedium() == medium
 	 * @ensure #getVormerkdatum() == vormerkdatum
 	 */
-	public Vormerkkarte(Kunde vormerker, Medium medium, Datum vormerkdatum) {
+	public Vormerkkarte(Kunde vormerker, Medium medium, Datum vormerkdatum)
+	{
 		assert vormerker != null : "Vorbedingung verletzt: vormerker != null";
 		assert medium != null : "Vorbedingung verletzt: medium != null";
 		assert vormerkdatum != null : "Vorbedingung verletzt: vormerkdatum != null";
@@ -65,10 +68,12 @@ public class Vormerkkarte {
 	 * 
 	 * @require kunde != null
 	 */
-	public void addVormerker(Kunde kunde) {
+	public void addVormerker(Kunde kunde)
+	{
 		assert kunde != null : "Vorbedingung verletzt : kunde != null";
-		
-;		_vormerker.add(kunde);
+
+		;
+		_vormerker.add(kunde);
 	}
 
 	/**
@@ -80,7 +85,8 @@ public class Vormerkkarte {
 	 * 
 	 * @ensure result != null
 	 */
-	public Datum getVormerkdatum() {
+	public Datum getVormerkdatum()
+	{
 		assert _vormerkdatum != null : "Vorbedingung verletzt : _vormerkdatum != null";
 		return _vormerkdatum;
 	}
@@ -92,24 +98,27 @@ public class Vormerkkarte {
 	 * 
 	 * @ensure result != nul
 	 */
-	public List<Kunde> getVormerker() {
-		
+	public List<Kunde> getVormerker()
+	{
+
 		return _vormerker;
 	}
 
 	/**
 	 * Prueft ob Kunde in der Vormerkkarte ist.
 	 * 
-	 * @param kunde Ein Kunde
+	 * @param kunde
+	 *            Ein Kunde
 	 * 
-	 * @return true, wenn der Kunde das Medium noch nicht entliehen hat
-	 * 		   sonst false
+	 * @return true, wenn der Kunde das Medium noch nicht entliehen hat sonst
+	 *         false
 	 * 
 	 * @require kunde != null
 	 */
-	public boolean istKundeInVormerkkarte(Kunde kunde) {
+	public boolean istKundeInVormerkkarte(Kunde kunde)
+	{
 		assert kunde != null : "Vorbedingung verletzt : kunde != null";
-		
+
 		return _vormerker.contains(kunde);
 	}
 
@@ -119,7 +128,8 @@ public class Vormerkkarte {
 	 * @require _vormerker.size()>0
 	 * @return Der erste Vormerker
 	 */
-	public Kunde getErstenVormerker() {
+	public Kunde getErstenVormerker()
+	{
 		assert _vormerker.size() > 0 : "Vorbedingung verletzt: _vormerker.size()>0";
 		return _vormerker.get(0);
 	}
@@ -132,7 +142,8 @@ public class Vormerkkarte {
 	 * @require _vormerker.size()>0
 	 * 
 	 */
-	public int deleteErstenVormerker() {
+	public int deleteErstenVormerker()
+	{
 		assert _vormerker.size() > 0 : "Vorbedingung verletzt: _vormerker.size()>0";
 		_vormerker.remove(0);
 		return _vormerker.size();
@@ -147,12 +158,14 @@ public class Vormerkkarte {
 	 * 
 	 * @ensure result != null
 	 */
-	public String getFormatiertenString() {
-		
+	public String getFormatiertenString()
+	{
+
 		String s = _medium.getFormatiertenString() + "am "
 				+ _vormerkdatum.toString() + " vorgemerkt an\n";
 		boolean firstIteration = true;
-		for (Kunde k : _vormerker) {
+		for (Kunde k : _vormerker)
+		{
 			s += (!firstIteration ? ",\n" : "") + k.getFormatiertenString();
 			firstIteration = false;
 		}
@@ -166,7 +179,8 @@ public class Vormerkkarte {
 	 * 
 	 * @ensure result != null
 	 */
-	public Medium getMedium() {
+	public Medium getMedium()
+	{
 		return _medium;
 	}
 
@@ -176,12 +190,14 @@ public class Vormerkkarte {
 	 * @return Die Vormerkdauer in Tagen.
 	 * @ensure result != null
 	 */
-	public int getVormerkdauer() {
+	public int getVormerkdauer()
+	{
 		return Datum.heute().tageSeit(getVormerkdatum()) + 1;
 	}
 
 	@Override
-	public int hashCode() {
+	public int hashCode()
+	{
 		final int prime = 31;
 		int result = 1;
 		result = prime * result
@@ -193,9 +209,11 @@ public class Vormerkkarte {
 	}
 
 	@Override
-	public boolean equals(Object obj) {
+	public boolean equals(Object obj)
+	{
 		boolean result = false;
-		if (obj instanceof Vormerkkarte) {
+		if (obj instanceof Vormerkkarte)
+		{
 			Vormerkkarte other = (Vormerkkarte) obj;
 
 			if (other.getVormerkdatum().equals(_vormerkdatum)
@@ -208,7 +226,8 @@ public class Vormerkkarte {
 	}
 
 	@Override
-	public String toString() {
+	public String toString()
+	{
 		return getFormatiertenString();
 	}
 
@@ -217,7 +236,8 @@ public class Vormerkkarte {
 	 * 
 	 * @return true wenn die Vormerkliste voll ist, sonst false
 	 */
-	public boolean istVoll() {
+	public boolean istVoll()
+	{
 		return _vormerker.size() == Vormerkkarte.MAX_NO_OF_KUNDE;
 	}
 
@@ -226,17 +246,21 @@ public class Vormerkkarte {
 	 * 
 	 * @return true wenn die Vormerkliste leer ist sonst false
 	 */
-	public boolean istLeer() {
+	public boolean istLeer()
+	{
 		return _vormerker.size() == 0;
 	}
+
 	/**
 	 * Entfernt einen Vormerker aus der Liste der Vormerker
 	 * 
-	 * @param kunde Ein Kunde
+	 * @param kunde
+	 *            Ein Kunde
 	 * 
-	 * @require istKundeInVormerkkarte(kunde)                                  
+	 * @require istKundeInVormerkkarte(kunde)
 	 */
-	public void deleteVormerker(Kunde kunde) {
+	public void deleteVormerker(Kunde kunde)
+	{
 		assert istKundeInVormerkkarte(kunde) : "Vorbedingung verletzt: istKundeInVormerkkarte(kunde) ";
 		_vormerker.remove(kunde);
 	}
