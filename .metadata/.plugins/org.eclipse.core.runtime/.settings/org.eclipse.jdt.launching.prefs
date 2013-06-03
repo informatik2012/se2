@@ -1,2 +1,6 @@
 eclipse.preferences.version=1
+<<<<<<< HEAD
 org.eclipse.jdt.launching.PREF_VM_XML=<?xml version\="1.0" encoding\="UTF-8" standalone\="no"?>\n<vmSettings defaultVM\="57,org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType13,1370267589743" defaultVMConnector\="">\n<vmType id\="org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType">\n<vm id\="1370267589743" name\="java-7-openjdk-amd64" path\="/usr/lib/jvm/java-7-openjdk-amd64"/>\n</vmType>\n</vmSettings>\n
+=======
+org.eclipse.jdt.launching.PREF_VM_XML=<?xml version\="1.0" encoding\="UTF-8" standalone\="no"?>\n<vmSettings defaultVM\="57,org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType13,1370267589743" defaultVMConnector\="">\n<vmType id\="org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType">\n<vm id\="1370267589743" name\="java-7-openjdk-amd64" path\="/usr/lib/jvm/java-7-openjdk-amd64" vmargs\="-ea"/>\n</vmType>\n</vmSettings>\n
+>>>>>>> b4dd2f485b901df4a8c7aaa05d11688b7d29f9e4
