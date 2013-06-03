@@ -189,7 +189,6 @@ public class Vormerkkarte
 	 * Berechnet die Vormerkdauer in Tagen.
 	 * 
 	 * @return Die Vormerkdauer in Tagen.
-	 * 
 	 * @ensure result != null
 	 */
 	public int getVormerkdauer()
@@ -266,4 +265,5 @@ public class Vormerkkarte
 		assert istKundeInVormerkkarte(kunde) : "Vorbedingung verletzt: istKundeInVormerkkarte(kunde) ";
 		_vormerker.remove(kunde);
 	}
+
 }

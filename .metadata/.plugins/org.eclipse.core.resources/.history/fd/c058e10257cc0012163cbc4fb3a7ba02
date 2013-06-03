@@ -139,8 +139,7 @@ public class Vormerkkarte
 	 * Kunden zurück.
 	 * 
 	 * @require _vormerker.size() > 0
-	 * @return Anzahl der verbleibenden Vormerker
-	 * @ensure result != null
+	 * @return result != null
 	 * 
 	 */
 	public int deleteErstenVormerker()
@@ -189,7 +188,6 @@ public class Vormerkkarte
 	 * Berechnet die Vormerkdauer in Tagen.
 	 * 
 	 * @return Die Vormerkdauer in Tagen.
-	 * 
 	 * @ensure result != null
 	 */
 	public int getVormerkdauer()
@@ -266,4 +264,5 @@ public class Vormerkkarte
 		assert istKundeInVormerkkarte(kunde) : "Vorbedingung verletzt: istKundeInVormerkkarte(kunde) ";
 		_vormerker.remove(kunde);
 	}
+
 }
