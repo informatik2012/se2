@@ -205,10 +205,14 @@ public class VerleihServiceImpl extends AbstractObservableService implements
 
 		for (Medium medium : medien)
 		{
-			if (istVorgemerkt(medium)
-					&& getVormerkkarteFuer(medium).deleteErstenVormerker() == 0)
+
+			if (istVorgemerkt(medium))
 			{
-				_vormerkkarten.remove(medium);
+				getVormerkkarteFuer(medium).deleteErstenVormerker();
+				if (getVormerkkarteFuer(medium).istLeer())
+				{
+					_vormerkkarten.remove(medium);
+				}
 			}
 			Verleihkarte verleihkarte = new Verleihkarte(kunde, medium,
 					ausleihDatum);
@@ -270,7 +274,7 @@ public class VerleihServiceImpl extends AbstractObservableService implements
 	public Kunde getEntleiherFuer(Medium medium)
 	{
 		assert istVerliehen(medium) : "Vorbedingung verletzt: istVerliehen(medium)";
-		Verleihkarte verleihkarte = _verleihkarten.get(medium);
+		Verleihkarte verleihkarte = getVerleihkarteFuer(medium);
 		return verleihkarte.getEntleiher();
 	}
 
@@ -278,7 +282,7 @@ public class VerleihServiceImpl extends AbstractObservableService implements
 	public Verleihkarte getVerleihkarteFuer(Medium medium)
 	{
 		assert istVerliehen(medium) : "Vorbedingung verletzt: istVerliehen(medium)";
-		return _verleihkarten.get(medium);
+		return getVerleihkarteFuer(medium);
 	}
 
 	@Override
@@ -297,14 +301,14 @@ public class VerleihServiceImpl extends AbstractObservableService implements
 	}
 
 	@Override
-	public boolean vormerkeAn(Kunde kunde, List<Medium> medium)
+	public boolean vormerkeAn(Kunde kunde, List<Medium> medien)
 	{
-		assert medium != null : "Vorbedingung verletzt: medium != null";
+		assert medien != null : "Vorbedingung verletzt: medium != null";
 		assert kunde != null : "Vorbedingung verletzt: kunde != null";
-
-		if (istVormerkenMoeglich(medium, kunde))
+		assert medienImBestand(medien) : "Vorbedingung verletzt: mediumImBestand(medium)";
+		if (istVormerkenMoeglich(medien, kunde))
 		{
-			for (Medium m : medium)
+			for (Medium m : medien)
 			{
 				if (_vormerkkarten.containsKey(m))
 				{
@@ -346,36 +350,34 @@ public class VerleihServiceImpl extends AbstractObservableService implements
 		assert medium != null : "Vorbedingung verletzt: medium != null";
 		assert kunde != null : "Vorbedingung verletzt: kunde != null";
 
-		boolean nichtMoeglich = (istVerliehen(medium) && _verleihkarten.get(
-				medium).getEntleiher() == kunde)
-				|| (istVorgemerkt(medium) && _vormerkkarten.get(medium)
-						.istVoll())
-				|| (istVorgemerkt(medium) && _vormerkkarten.get(medium)
-						.istKundeInVormerkkarte(kunde));
+		boolean nichtMoeglich = (istVerliehen(medium)
+				  && getVerleihkarteFuer(medium).getEntleiher() == kunde)
+				|| (istVorgemerkt(medium) && (getVormerkkarteFuer(medium)
+						.istVoll() || getVormerkkarteFuer(medium)
+						.istKundeInVormerkkarte(kunde)));
+
 		return !nichtMoeglich;
 
 	}
 
 	@Override
-	public boolean vormerkeZurueck(Medium medium, Kunde kunde)
+	public void vormerkeZurueck(Medium medium, Kunde kunde)
 	{
-		assert _vormerkkarten.get(medium) != null : "Vorbedingung verletzt:  _vormerkkarten.get(medium) != null";
-		assert _vormerkkarten.get(medium).istKundeInVormerkkarte(kunde) : "Vorbedingung verletzt: _vormerkkarten.get(medium).istKundeInVormerkkarte(kunde)";
-		_vormerkkarten.get(medium).deleteVormerker(kunde);
-		if (_vormerkkarten.get(medium).istLeer())
+		assert getVormerkkarteFuer(medium) != null : "Vorbedingung verletzt:  getVormerkkarteFuer(medium) != null";
+		assert getVormerkkarteFuer(medium).istKundeInVormerkkarte(kunde) : "Vorbedingung verletzt: getVormerkkarteFuer(medium).istKundeInVormerkkarte(kunde)";
+		getVormerkkarteFuer(medium).deleteVormerker(kunde);
+		if (getVormerkkarteFuer(medium).istLeer())
 		{
 			_vormerkkarten.remove(medium);
 			informiereUeberAenderung();
-			return true;
 		}
-		return false;
 	}
 
 	@Override
 	public Vormerkkarte getVormerkkarteFuer(Medium medium)
 	{
-		assert _vormerkkarten.get(medium) != null : "Vorbedingung verletzt: _vormerkkarten.get(medium)!=null";
-		return _vormerkkarten.get(medium);
+		assert getVormerkkarteFuer(medium) != null : "Vorbedingung verletzt: getVormerkkarteFuer(medium)!=null";
+		return getVormerkkarteFuer(medium);
 	}
 
 	@Override
@@ -387,7 +389,7 @@ public class VerleihServiceImpl extends AbstractObservableService implements
 		for (Medium m : medien)
 		{
 			if (_vormerkkarten.containsKey(m)
-					&& _vormerkkarten.get(m).getErstenVormerker() != kunde)
+					&& getVormerkkarteFuer(m).getErstenVormerker() != kunde)
 				return false;
 		}
 		return true;

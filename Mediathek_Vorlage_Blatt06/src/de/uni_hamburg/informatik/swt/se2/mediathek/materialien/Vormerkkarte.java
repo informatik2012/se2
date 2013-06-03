@@ -1,5 +1,7 @@
 package de.uni_hamburg.informatik.swt.se2.mediathek.materialien;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -92,7 +94,7 @@ public class Vormerkkarte
 	}
 
 	/**
-	 * Gibt den Vormerker zurück.
+	 * Gibt eine unveränderbare Liste der Vormerker zurück.
 	 * 
 	 * @return den Kunden, der das Medium entliehen hat.
 	 * 
@@ -101,7 +103,7 @@ public class Vormerkkarte
 	public List<Kunde> getVormerker()
 	{
 
-		return _vormerker;
+		return Collections.unmodifiableList(_vormerker);
 	}
 
 	/**
@@ -139,15 +141,12 @@ public class Vormerkkarte
 	 * Kunden zurück.
 	 * 
 	 * @require _vormerker.size() > 0
-	 * @return Anzahl der verbleibenden Vormerker
-	 * @ensure result != null
 	 * 
 	 */
-	public int deleteErstenVormerker()
+	public void deleteErstenVormerker()
 	{
 		assert _vormerker.size() > 0 : "Vorbedingung verletzt: _vormerker.size()>0";
 		_vormerker.remove(0);
-		return _vormerker.size();
 	}
 
 	/**
@@ -197,35 +196,6 @@ public class Vormerkkarte
 		return Datum.heute().tageSeit(getVormerkdatum()) + 1;
 	}
 
-	@Override
-	public int hashCode()
-	{
-		final int prime = 31;
-		int result = 1;
-		result = prime * result
-				+ ((_vormerkdatum == null) ? 0 : _vormerkdatum.hashCode());
-		result = prime * result
-				+ ((_vormerker == null) ? 0 : _vormerker.hashCode());
-		result = prime * result + ((_medium == null) ? 0 : _medium.hashCode());
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj)
-	{
-		boolean result = false;
-		if (obj instanceof Vormerkkarte)
-		{
-			Vormerkkarte other = (Vormerkkarte) obj;
-
-			if (other.getVormerkdatum().equals(_vormerkdatum)
-					&& other.getVormerker().equals(_vormerker)
-					&& other.getMedium().equals(_medium))
-
-				result = true;
-		}
-		return result;
-	}
 
 	@Override
 	public String toString()

@@ -36,13 +36,13 @@ public class VormerkkarteTest
 	}
 
 	@Test
-	public void testegetFormatiertenString() throws Exception
+	public void testegetFormatiertenString()
 	{
 		assertNotNull(_karte.getFormatiertenString());
 	}
 
 	@Test
-	public void testeKonstruktor() throws Exception
+	public void testeKonstruktor()
 	{
 		assertEquals(_kunde, _karte.getErstenVormerker());
 		assertEquals(_medium, _karte.getMedium());
@@ -50,7 +50,7 @@ public class VormerkkarteTest
 	}
 
 	@Test
-	public void testeVormerken() throws Exception
+	public void testeVormerken()
 	{
 		Kunde _kunde2 = new Kunde(new Kundennummer(111111), "Hal", "Lo");
 		_karte.addVormerker(_kunde2);
@@ -63,7 +63,7 @@ public class VormerkkarteTest
 	}
 
 	@Test
-	public void testeVormerkerVerschiebung() throws Exception
+	public void testeVormerkerVerschiebung()
 	{
 		Kunde _kunde2 = new Kunde(new Kundennummer(111111), "Hal", "Lo");
 		_karte.addVormerker(_kunde2);
@@ -72,7 +72,7 @@ public class VormerkkarteTest
 	}
 
 	@Test
-	public void testeIstKundeeinVormerker() throws Exception
+	public void testeIstKundeeinVormerker()
 	{
 		Kunde _kunde2 = new Kunde(new Kundennummer(111111), "Hal", "Lo");
 		_karte.addVormerker(_kunde2);

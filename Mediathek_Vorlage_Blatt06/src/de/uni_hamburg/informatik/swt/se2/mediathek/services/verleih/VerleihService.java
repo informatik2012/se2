@@ -281,12 +281,11 @@ public interface VerleihService extends ObservableService
 	 * @param kunde
 	 *            Ein Vormerker aus der Liste
 	 * 
-	 * @return true, wenn der Kunde sich vorgemerkt hat, sonst false
 	 * 
 	 * @require medium!=null
 	 * @require kunde != null
 	 */
-	boolean vormerkeZurueck(Medium medium, Kunde kunde);
+	void vormerkeZurueck(Medium medium, Kunde kunde);
 
 	/**
 	 * Gibt die Vormerkkarte für ein Medium

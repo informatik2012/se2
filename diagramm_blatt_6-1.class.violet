@@ -87,19 +87,19 @@ VerleihService</string>
      <string>x</string>
      <void method="set">
       <object idref="Point2D$Double1"/>
-      <double>690.0</double>
+      <double>663.8374434699401</double>
      </void>
     </void>
     <void class="java.awt.geom.Point2D$Double" method="getField">
      <string>y</string>
      <void method="set">
       <object idref="Point2D$Double1"/>
-      <double>253.0</double>
+      <double>316.02797709514425</double>
      </void>
     </void>
     <void method="setLocation">
-     <double>690.0</double>
-     <double>253.0</double>
+     <double>663.8374434699401</double>
+     <double>316.02797709514425</double>
     </void>
    </object>
   </void>
@@ -246,19 +246,19 @@ aktualisiereVormerkButton()</string>
      <string>x</string>
      <void method="set">
       <object idref="Point2D$Double5"/>
-      <double>763.0</double>
+      <double>734.4590292399348</double>
      </void>
     </void>
     <void class="java.awt.geom.Point2D$Double" method="getField">
      <string>y</string>
      <void method="set">
       <object idref="Point2D$Double5"/>
-      <double>571.0</double>
+      <double>7.542297270266559</double>
      </void>
     </void>
     <void method="setLocation">
-     <double>763.0</double>
-     <double>571.0</double>
+     <double>734.4590292399348</double>
+     <double>7.542297270266559</double>
     </void>
    </object>
   </void>
@@ -337,48 +337,19 @@ wird gebraucht</string>
      <string>x</string>
      <void method="set">
       <object idref="Point2D$Double8"/>
-      <double>790.0</double>
+      <double>951.7321676403701</double>
      </void>
     </void>
     <void class="java.awt.geom.Point2D$Double" method="getField">
      <string>y</string>
      <void method="set">
       <object idref="Point2D$Double8"/>
-      <double>189.0</double>
+      <double>291.27181189023406</double>
      </void>
     </void>
     <void method="setLocation">
-     <double>790.0</double>
-     <double>189.0</double>
-    </void>
-   </object>
-  </void>
-  <void method="addNode">
-   <object class="com.horstmann.violet.NoteNode">
-    <void property="text">
-     <void property="text">
-      <string>was ist mit vormerkkarteVorhanden?</string>
-     </void>
-    </void>
-   </object>
-   <object class="java.awt.geom.Point2D$Double" id="Point2D$Double9">
-    <void class="java.awt.geom.Point2D$Double" method="getField">
-     <string>x</string>
-     <void method="set">
-      <object idref="Point2D$Double9"/>
-      <double>137.0</double>
-     </void>
-    </void>
-    <void class="java.awt.geom.Point2D$Double" method="getField">
-     <string>y</string>
-     <void method="set">
-      <object idref="Point2D$Double9"/>
-      <double>788.0</double>
-     </void>
-    </void>
-    <void method="setLocation">
-     <double>137.0</double>
-     <double>788.0</double>
+     <double>951.7321676403701</double>
+     <double>291.27181189023406</double>
     </void>
    </object>
   </void>
@@ -392,24 +363,24 @@ _vormerkkarten</string>
      </void>
     </void>
    </object>
-   <object class="java.awt.geom.Point2D$Double" id="Point2D$Double10">
+   <object class="java.awt.geom.Point2D$Double" id="Point2D$Double9">
     <void class="java.awt.geom.Point2D$Double" method="getField">
      <string>x</string>
      <void method="set">
-      <object idref="Point2D$Double10"/>
-      <double>252.0</double>
+      <object idref="Point2D$Double9"/>
+      <double>640.8707266058898</double>
      </void>
     </void>
     <void class="java.awt.geom.Point2D$Double" method="getField">
      <string>y</string>
      <void method="set">
-      <object idref="Point2D$Double10"/>
-      <double>505.0</double>
+      <object idref="Point2D$Double9"/>
+      <double>742.8414230005442</double>
      </void>
     </void>
     <void method="setLocation">
-     <double>252.0</double>
-     <double>505.0</double>
+     <double>640.8707266058898</double>
+     <double>742.8414230005442</double>
     </void>
    </object>
   </void>
