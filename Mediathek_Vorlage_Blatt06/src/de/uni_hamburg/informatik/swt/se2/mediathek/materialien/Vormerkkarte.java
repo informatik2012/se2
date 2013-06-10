@@ -136,8 +136,8 @@ public class Vormerkkarte
 	}
 
 	/**
-	 * Entfernt den ersten Vormerker und gibt die Anzahl der verbleibenen
-	 * Kunden zurück.
+	 * Entfernt den ersten Vormerker und gibt die Anzahl der verbleibenen Kunden
+	 * zurück.
 	 * 
 	 * @require _vormerker.size() > 0
 	 * 
@@ -195,7 +195,6 @@ public class Vormerkkarte
 		return Datum.heute().tageSeit(getVormerkdatum()) + 1;
 	}
 
-
 	@Override
 	public String toString()
 	{
@@ -234,5 +233,34 @@ public class Vormerkkarte
 	{
 		assert istKundeInVormerkkarte(kunde) : "Vorbedingung verletzt: istKundeInVormerkkarte(kunde) ";
 		_vormerker.remove(kunde);
+	}
+
+	@Override
+	public int hashCode()
+	{
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+				+ ((_vormerkdatum == null) ? 0 : _vormerkdatum.hashCode());
+		result = prime * result + ((_medium == null) ? 0 : _medium.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj)
+	{
+		boolean result = false;
+		if (obj instanceof Vormerkkarte)
+		{
+			Vormerkkarte other = (Vormerkkarte) obj;
+
+			if (other.getVormerkdatum().equals(_vormerkdatum)
+					&& other.getMedium().equals(_medium))
+			{
+				result = true;
+			}
+
+		}
+		return result;
 	}
 }

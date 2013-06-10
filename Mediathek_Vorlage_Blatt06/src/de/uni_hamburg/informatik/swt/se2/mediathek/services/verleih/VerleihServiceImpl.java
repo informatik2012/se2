@@ -282,7 +282,7 @@ public class VerleihServiceImpl extends AbstractObservableService implements
 	public Verleihkarte getVerleihkarteFuer(Medium medium)
 	{
 		assert istVerliehen(medium) : "Vorbedingung verletzt: istVerliehen(medium)";
-		return getVerleihkarteFuer(medium);
+		return _verleihkarten.get(medium);
 	}
 
 	@Override

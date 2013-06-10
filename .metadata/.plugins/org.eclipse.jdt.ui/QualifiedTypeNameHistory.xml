@@ -2,4 +2,14 @@
 <qualifiedTypeNameHistroy>
 <fullyQualifiedTypeName name="java.util.Collection"/>
 <fullyQualifiedTypeName name="java.util.Collections"/>
+<fullyQualifiedTypeName name="java.util.Set"/>
+<fullyQualifiedTypeName name="de.uni_hamburg.informatik.swt.se2.kino.werkzeuge.beobachter.Beobachtbar"/>
+<fullyQualifiedTypeName name="de.uni_hamburg.informatik.swt.se2.kino.werkzeuge.kasse.KassenWerkzeug"/>
+<fullyQualifiedTypeName name="de.uni_hamburg.informatik.swt.se2.kino.werkzeuge.beobachter.DatumsBeobachter"/>
+<fullyQualifiedTypeName name="de.uni_hamburg.informatik.swt.se2.kino.werkzeuge.beobachter.Beobachter"/>
+<fullyQualifiedTypeName name="java.util.HashSet"/>
+<fullyQualifiedTypeName name="de.uni_hamburg.informatik.swt.se2.kino.werkzeuge.beobachter.VorstellungsBeobachter"/>
+<fullyQualifiedTypeName name="de.uni_hamburg.informatik.swt.se2.kino.werkzeuge.vorstellungsauswaehler.VorstellungsAuswaehlWerkzeug"/>
+<fullyQualifiedTypeName name="de.uni_hamburg.informatik.swt.se2.kino.werkzeuge.datumsauswaehler.DatumAuswaehlWerkzeug"/>
+<fullyQualifiedTypeName name="org.omg.stub.java.rmi._Remote_Stub"/>
 </qualifiedTypeNameHistroy>
