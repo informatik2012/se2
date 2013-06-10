@@ -293,9 +293,10 @@ public interface VerleihService extends ObservableService
 	 * @param medium
 	 *            Ein Medium aus dem Bestand
 	 * 
-	 * @return _vormerkkarten.get(medium)
+	 * @return Vorkmerkkarte vom Medium
 	 * 
-	 * @require _vormerkkarten.get.(medium) != null
+	 * @require medium != null
+	 * @require mediumImBestand(medium)
 	 * 
 	 * @ensure result != null
 	 */

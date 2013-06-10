@@ -376,8 +376,10 @@ public class VerleihServiceImpl extends AbstractObservableService implements
 	@Override
 	public Vormerkkarte getVormerkkarteFuer(Medium medium)
 	{
-		assert getVormerkkarteFuer(medium) != null : "Vorbedingung verletzt: getVormerkkarteFuer(medium)!=null";
-		return getVormerkkarteFuer(medium);
+		
+		assert medium != null : "Vorbedingung verletzt: medium != null";
+		assert mediumImBestand(medium) : "Vorbedingung verletzt: mediumImBestand(medium)";
+		return _vormerkkarten.get(medium);
 	}
 
 	@Override
