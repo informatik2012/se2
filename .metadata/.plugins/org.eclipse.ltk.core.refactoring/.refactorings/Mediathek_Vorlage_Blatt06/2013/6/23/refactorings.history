@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename local variable &apos;medium&apos; in &apos;de.uni_hamburg.informatik.swt.se2.mediathek.services.verleih.VerleihServiceImpl.vormerkeAn(...)&apos; to &apos;medien&apos;&#x0A;- Original project: &apos;Mediathek_Vorlage_Blatt06&apos;&#x0A;- Original element: &apos;de.uni_hamburg.informatik.swt.se2.mediathek.services.verleih.VerleihServiceImpl.vormerkeAn(Kunde, List&lt;Medium&gt;).medium&apos;&#x0A;- Renamed element: &apos;medium&apos;&#x0A;- Update references to refactored element" description="Rename local variable &apos;medium&apos;" id="org.eclipse.jdt.ui.rename.local.variable" input="/src&lt;de.uni_hamburg.informatik.swt.se2.mediathek.services.verleih{VerleihServiceImpl.java[VerleihServiceImpl~vormerkeAn~QKunde;~QList\&lt;QMedium;&gt;;@medium!8653!8671!8666!8671!QList\&lt;QMedium;&gt;;!0!true" name="medien" references="true" stamp="1370276392384" version="1.0"/>
+</session>

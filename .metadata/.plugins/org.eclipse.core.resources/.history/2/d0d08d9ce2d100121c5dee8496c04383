@@ -1,0 +1,11 @@
+package de.uni_hamburg.informatik.swt.se2.kino.werkzeuge.beobachter;
+
+import java.util.Set;
+
+public abstract class Beobachtbar
+{
+	Set<Beobachter> _beobachter;
+	
+	setzeBeobachter(Beobachter b);
+	meldeAenderung();
+}

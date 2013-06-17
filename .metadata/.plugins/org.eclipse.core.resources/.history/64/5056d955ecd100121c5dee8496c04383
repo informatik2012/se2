@@ -1,0 +1,25 @@
+package de.uni_hamburg.informatik.swt.se2.kino.werkzeuge.beobachter;
+
+import de.uni_hamburg.informatik.swt.se2.kino.werkzeuge.datumsauswaehler.DatumAuswaehlWerkzeug;
+import de.uni_hamburg.informatik.swt.se2.kino.werkzeuge.kasse.KassenWerkzeug;
+import de.uni_hamburg.informatik.swt.se2.kino.werkzeuge.vorstellungsauswaehler.VorstellungsAuswaehlWerkzeug;
+
+public class DatumsBeobachter implements Beobachter
+{
+
+	private KassenWerkzeug _k;
+	
+	
+	DatumsBeobachter(KassenWerkzeug k)
+	{
+		_k = k;
+	}
+	
+	@Override
+	public void beachteAenderung()
+	{
+		_v.setTagesplan(_d.);
+		
+	}
+
+}

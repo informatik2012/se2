@@ -1,0 +1,21 @@
+package de.uni_hamburg.informatik.swt.se2.kino.werkzeuge.beobachter;
+
+import de.uni_hamburg.informatik.swt.se2.kino.werkzeuge.vorstellungsauswaehler.VorstellungsAuswaehlWerkzeug;
+
+public class DatumsBeobachter implements Beobachter
+{
+	private VorstellungsAuswaehlWerkzeugauswahlWerkzeug _v;
+	
+	DatumsBeobachter()
+	{
+		
+	}
+	
+	@Override
+	public void beachteAenderung()
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+}
