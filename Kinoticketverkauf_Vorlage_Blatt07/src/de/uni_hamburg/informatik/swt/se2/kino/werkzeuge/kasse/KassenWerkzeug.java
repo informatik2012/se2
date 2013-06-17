@@ -124,10 +124,6 @@ public class KassenWerkzeug implements Beobachter
         return _vorstellungAuswaehlWerkzeug.getAusgewaehlteVorstellung();
     }
 
-    @Override
-  	public void beachteAenderung()
-  	{
-  	}
     
 	@Override
 	public void beachteDatumsAenderung()
