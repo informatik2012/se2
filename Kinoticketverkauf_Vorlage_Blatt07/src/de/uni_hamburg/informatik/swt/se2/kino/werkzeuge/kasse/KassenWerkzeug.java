@@ -2,12 +2,13 @@ package de.uni_hamburg.informatik.swt.se2.kino.werkzeuge.kasse;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Observable;
+import java.util.Observer;
 
 import de.uni_hamburg.informatik.swt.se2.kino.fachwerte.Datum;
 import de.uni_hamburg.informatik.swt.se2.kino.materialien.Kino;
 import de.uni_hamburg.informatik.swt.se2.kino.materialien.Tagesplan;
 import de.uni_hamburg.informatik.swt.se2.kino.materialien.Vorstellung;
-import de.uni_hamburg.informatik.swt.se2.kino.werkzeuge.beobachter.Beobachter;
 import de.uni_hamburg.informatik.swt.se2.kino.werkzeuge.datumsauswaehler.DatumAuswaehlWerkzeug;
 import de.uni_hamburg.informatik.swt.se2.kino.werkzeuge.platzverkauf.PlatzVerkaufsWerkzeug;
 import de.uni_hamburg.informatik.swt.se2.kino.werkzeuge.vorstellungsauswaehler.VorstellungsAuswaehlWerkzeug;
@@ -20,7 +21,7 @@ import de.uni_hamburg.informatik.swt.se2.kino.werkzeuge.vorstellungsauswaehler.V
  * @author SE2-Team
  * @version SoSe 2013
  */
-public class KassenWerkzeug implements Beobachter
+public class KassenWerkzeug implements Observer
 {
     // Das Material dieses Werkzeugs
     private Kino _kino;
@@ -51,8 +52,8 @@ public class KassenWerkzeug implements Beobachter
         _datumAuswaehlWerkzeug = new DatumAuswaehlWerkzeug();
         _vorstellungAuswaehlWerkzeug = new VorstellungsAuswaehlWerkzeug();
 
-        _datumAuswaehlWerkzeug.setzeBeobachter(this);
-        _vorstellungAuswaehlWerkzeug.setzeBeobachter(this);
+        _datumAuswaehlWerkzeug.addObserver(this);
+        _vorstellungAuswaehlWerkzeug.addObserver(this);
         
         // UI erstellen (mit eingebetteten UIs der direkten Subwerkzeuge)
         _ui = new KassenWerkzeugUI(_platzVerkaufsWerkzeug.getUIPanel(),
@@ -124,16 +125,20 @@ public class KassenWerkzeug implements Beobachter
         return _vorstellungAuswaehlWerkzeug.getAusgewaehlteVorstellung();
     }
 
-    
+
+
 	@Override
-	public void beachteDatumsAenderung()
+	public void update(Observable observable, Object object)
 	{
-		setzeTagesplanFuerAusgewaehltesDatum();
-	}
-	
-	@Override
-	public void beachteVorstellungsAenderung()
-	{
-		setzeAusgewaehlteVorstellung();
+		if(observable == _datumAuswaehlWerkzeug)
+		{
+			setzeTagesplanFuerAusgewaehltesDatum();
+		}
+		else if(observable == _vorstellungAuswaehlWerkzeug)
+		{
+			setzeAusgewaehlteVorstellung();
+		}
+		// TODO Auto-generated method stub
+		
 	}
 }

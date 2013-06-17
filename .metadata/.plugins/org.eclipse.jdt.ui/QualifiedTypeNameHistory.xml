@@ -12,4 +12,5 @@
 <fullyQualifiedTypeName name="de.uni_hamburg.informatik.swt.se2.kino.werkzeuge.vorstellungsauswaehler.VorstellungsAuswaehlWerkzeug"/>
 <fullyQualifiedTypeName name="de.uni_hamburg.informatik.swt.se2.kino.werkzeuge.datumsauswaehler.DatumAuswaehlWerkzeug"/>
 <fullyQualifiedTypeName name="org.omg.stub.java.rmi._Remote_Stub"/>
+<fullyQualifiedTypeName name="java.util.Observable"/>
 </qualifiedTypeNameHistroy>
